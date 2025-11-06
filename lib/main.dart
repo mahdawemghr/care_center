@@ -35,32 +35,38 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
 
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 180),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(8),
-        ),
+      body: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 175),
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Log in'),
+              Text(
+                'Log in',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: TextField(
                   decoration: InputDecoration(
-                    // border: OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.person),
                     labelText: 'Username',
                   ),
                 ),
               ),
               TextField(
-                decoration: InputDecoration(
-                  // border: OutlineInputBorder(),
+                obscureText: true,
+                decoration: const InputDecoration(
                   labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
                 ),
               ),
               Row(
@@ -71,7 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.primary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -89,13 +97,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(Colors.white.value),
+                          backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
+                            side: BorderSide(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Register',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ),
                     ),
