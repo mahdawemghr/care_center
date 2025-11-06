@@ -26,6 +26,7 @@ Card logInCard(BuildContext context) {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16),
             child: TextField(
+              controller: username,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.person),
                 labelText: 'Username',
@@ -33,7 +34,7 @@ Card logInCard(BuildContext context) {
             ),
           ),
           TextField(
-            controller: TextEditingController(),
+            controller: password,
             obscureText: true,
             decoration: const InputDecoration(
               labelText: 'Password',
@@ -49,7 +50,12 @@ Card logInCard(BuildContext context) {
                     onPressed: () {
                       if (username.text.isNotEmpty &&
                           password.text.isNotEmpty) {
-                        Navigator.pushNamed(context, '/home');
+                        if (username.text == 'admin' &&
+                            password.text == 'admin') {
+                          Navigator.pushNamed(context, '/adminDashboard');
+                        } else {
+                          Navigator.pushNamed(context, '/userDashboard');
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

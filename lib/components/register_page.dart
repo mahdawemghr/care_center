@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 MaterialPageRoute<dynamic> registerPage() {
-  String? username;
-  String? password;
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
 
   return MaterialPageRoute(
     builder: (context) => Scaffold(
@@ -32,6 +33,7 @@ MaterialPageRoute<dynamic> registerPage() {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: TextField(
+                  controller: username,
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.person),
                     labelText: 'Username',
@@ -41,6 +43,7 @@ MaterialPageRoute<dynamic> registerPage() {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: TextField(
+                  controller: password,
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
@@ -49,6 +52,7 @@ MaterialPageRoute<dynamic> registerPage() {
                 ),
               ),
               TextField(
+                controller: confirmPassword,
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: 'Confirm Password',
@@ -60,7 +64,15 @@ MaterialPageRoute<dynamic> registerPage() {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (username.text.isNotEmpty &&
+                          password.text.isNotEmpty &&
+                          confirmPassword.text.isNotEmpty) {
+                        if (password.text == confirmPassword.text) {
+                          Navigator.pop(context);
+                        }
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
