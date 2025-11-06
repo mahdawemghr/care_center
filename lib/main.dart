@@ -36,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
 
-      body: logInCard(context),
+      body: LogInCard(),
     );
   }
 }
