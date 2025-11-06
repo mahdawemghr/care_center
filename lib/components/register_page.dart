@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 MaterialPageRoute<dynamic> registerPage() {
+  String? username;
+  String? password;
+
   return MaterialPageRoute(
     builder: (context) => Scaffold(
       appBar: AppBar(
-        title: const Text('Register', style: TextStyle(color: Colors.white)),
+        title: const Text('Care Center', style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         iconTheme: IconThemeData(color: Color(Colors.white.value)),
       ),
@@ -20,7 +23,7 @@ MaterialPageRoute<dynamic> registerPage() {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Log in',
+                'Register',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).colorScheme.primary,

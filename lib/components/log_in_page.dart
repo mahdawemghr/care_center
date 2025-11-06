@@ -2,6 +2,9 @@ import 'package:care_center/components/register_page.dart';
 import 'package:flutter/material.dart';
 
 Card logInCard(BuildContext context) {
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
+
   return Card(
     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 175),
     elevation: 8,
@@ -30,6 +33,7 @@ Card logInCard(BuildContext context) {
             ),
           ),
           TextField(
+            controller: TextEditingController(),
             obscureText: true,
             decoration: const InputDecoration(
               labelText: 'Password',
@@ -42,7 +46,12 @@ Card logInCard(BuildContext context) {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (username.text.isNotEmpty &&
+                          password.text.isNotEmpty) {
+                        Navigator.pushNamed(context, '/home');
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       shape: RoundedRectangleBorder(
@@ -88,4 +97,3 @@ Card logInCard(BuildContext context) {
     ),
   );
 }
-
