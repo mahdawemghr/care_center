@@ -1,4 +1,5 @@
 import 'package:care_center/components/register_page.dart';
+import 'package:care_center/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class LogInCard extends StatefulWidget {
@@ -19,9 +20,24 @@ class _LogInCardState extends State<LogInCard> {
       final password = _passwordController.text;
 
       if (username == 'admin' && password == 'admin') {
-        Navigator.pushNamed(context, '/adminDashboard');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            content: const Text('login successful!'),
+          ),
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
       } else {
-        Navigator.pushNamed(context, '/userDashboard');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            content: const Text('login successful!'),
+          ),
+        );
+        // Navigator.pushNamed(context, '/userDashboard');
       }
     }
   }
@@ -29,7 +45,7 @@ class _LogInCardState extends State<LogInCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 175),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 240),
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: Theme.of(context).colorScheme.primaryContainer,

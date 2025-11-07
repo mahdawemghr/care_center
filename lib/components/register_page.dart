@@ -1,3 +1,4 @@
+import 'package:care_center/components/username_data.dart';
 import 'package:flutter/material.dart';
 
 MaterialPageRoute<dynamic> registerPage() {
@@ -21,13 +22,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _handleRegister() {
     if (_formKey.currentState!.validate()) {
       if (_passwordController.text == _confirmPasswordController.text) {
-        Navigator.pop(context);
+        // if(UsernameData.userExists(users, _usernameController.text)) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).colorScheme.primary,
-            content: const Text('Registration successful! Please log in.'),
+            content: const Text('Username already exists!'),
           ),
         );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            content: const Text('Registration successful!'),
+          ),
+        );
+        Navigator.pop(context);
+        // }
       }
     }
   }

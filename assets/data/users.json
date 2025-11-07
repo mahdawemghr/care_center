@@ -1,0 +1,12 @@
+[
+  { "username": "alice", "password": "pass123" },
+  { "username": "bob", "password": "secure456" },
+  { "username": "charlie", "password": "qwerty789" },
+  { "username": "diana", "password": "hello321" },
+  { "username": "eric", "password": "admin000" },
+  { "username": "fatima", "password": "flutter12" },
+  { "username": "george", "password": "letmein34" },
+  { "username": "hana", "password": "mypwd567" },
+  { "username": "ibrahim", "password": "testpass9" },
+  { "username": "julia", "password": "user4321" }
+]
