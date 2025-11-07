@@ -1,6 +1,7 @@
 import 'package:care_center/components/register_page.dart';
 import 'package:care_center/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:care_center/components/username_data.dart';
 
 class LogInCard extends StatefulWidget {
   const LogInCard({super.key});
@@ -13,8 +14,9 @@ class _LogInCardState extends State<LogInCard> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  var data = UsernameData();
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text;
       final password = _passwordController.text;
@@ -31,13 +33,34 @@ class _LogInCardState extends State<LogInCard> {
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            content: const Text('login successful!'),
-          ),
-        );
-        // Navigator.pushNamed(context, '/userDashboard');
+        if (await data.userExists(username)) {
+          if (await data.validateUser(username, password)) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                content: const Text('login successful!'),
+              ),
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                content: const Text('Invalid password!'),
+              ),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              content: const Text('Invalid username!'),
+            ),
+          );
+        }
       }
     }
   }
