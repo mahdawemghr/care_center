@@ -18,28 +18,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  var data = UsernameData();
 
-  void _handleRegister() {
+  Future<void> _handleRegister() async {
     if (_formKey.currentState!.validate()) {
       if (_passwordController.text == _confirmPasswordController.text) {
-        // if(UsernameData.userExists(users, _usernameController.text)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            content: const Text('Username already exists!'),
-          ),
-        );
+        if (await data.userExists(_usernameController.text)) {
+          logMessage('Username already exists!');
+        } else {
+          logMessage('Registration successful!');
+          Navigator.pop(context);
+        }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            content: const Text('Registration successful!'),
-          ),
-        );
-        Navigator.pop(context);
-        // }
+        logMessage('Passwords do not match');
       }
     }
+
+    // print all the values in this list
+    // for (var user in await data.readUsers()) {
+    //   print('Username: ${user['username']}, Password: ${user['password']}');
+    // }
+  }
+
+  void logMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        content: Text(message),
+      ),
+    );
   }
 
   @override

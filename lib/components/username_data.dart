@@ -1,20 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 class UsernameData {
   // reads users from json file
   Future<List<Map<String, dynamic>>> readUsers() async {
-    final file = File('assets/data/users.json');
-
-    if (!await file.exists()) {
-      return [];
-    }
-
     try {
-      final contents = await file.readAsString();
-      final List<dynamic> jsonData = contents.isNotEmpty
-          ? jsonDecode(contents)
-          : [];
+      final contents = await rootBundle.loadString('assets/data/users.json');
+      final List<dynamic> jsonData = jsonDecode(contents);
       return List<Map<String, dynamic>>.from(jsonData);
     } catch (e) {
       print('Error reading users: $e');
@@ -23,7 +16,8 @@ class UsernameData {
   }
 
   // checks if user exists in json data
-  bool userExists(List<Map<String, dynamic>> users, String username) {
+  Future<bool> userExists(String username) async {
+    final users = await readUsers();
     return users.any((user) => user['username'] == username);
   }
 
@@ -42,11 +36,8 @@ class UsernameData {
   }
 
   // this function to chack the password for a given username
-  bool validateUser(
-    List<Map<String, dynamic>> users,
-    String username,
-    String password,
-  ) {
+  Future<bool> validateUser(String username, String password) async {
+    final users = await readUsers();
     return users.any(
       (user) => user['username'] == username && user['password'] == password,
     );

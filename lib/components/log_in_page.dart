@@ -22,12 +22,7 @@ class _LogInCardState extends State<LogInCard> {
       final password = _passwordController.text;
 
       if (username == 'admin' && password == 'admin') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            content: const Text('login successful!'),
-          ),
-        );
+        logMessage('Admin login successful!');
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
@@ -35,34 +30,28 @@ class _LogInCardState extends State<LogInCard> {
       } else {
         if (await data.userExists(username)) {
           if (await data.validateUser(username, password)) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                content: const Text('login successful!'),
-              ),
-            );
+            logMessage('Login successful!');
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),
             );
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                content: const Text('Invalid password!'),
-              ),
-            );
+            logMessage('Incorrect password!');
           }
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              content: const Text('Invalid username!'),
-            ),
-          );
+          logMessage('Username does not exist!');
         }
       }
     }
+  }
+
+  logMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        content: Text(message),
+      ),
+    );
   }
 
   @override
