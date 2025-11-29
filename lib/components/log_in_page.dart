@@ -151,6 +151,18 @@ class _LogInCardState extends State<LogInCard> {
                 ),
               ],
             ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+              },
+              child: Text(
+                'Goin as Guest',
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
           ],
         ),
       ),

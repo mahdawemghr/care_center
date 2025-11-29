@@ -25,17 +25,17 @@ class HomePage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Card(
               child: ListTile(
-                title: Text(items[index]),
-                leading: Icon(
-                  Icons.medical_services,
-                  color: Theme.of(context).colorScheme.primary,
+                title: Text(
+                  items[index],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
+                // leading: Icon(
+                //   Icons.medical_services,
+                //   color: Theme.of(context).colorScheme.primary,
+                // ),
                 trailing: IconButton(
                   onPressed: () {},
-                  icon: Icon(
-                    Icons.arrow_drop_down_circle,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+                  icon: Icon(Icons.arrow_right),
                 ),
                 subtitle: const Text(
                   'available 2',
