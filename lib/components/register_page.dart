@@ -26,6 +26,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (await data.userExists(_usernameController.text)) {
           logMessage('Username already exists!');
         } else {
+          await data.addUser(
+            _usernameController.text,
+            _passwordController.text,
+          );
           logMessage('Registration successful!');
           Navigator.pop(context);
         }
@@ -33,11 +37,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         logMessage('Passwords do not match');
       }
     }
-
-    // print all the values in this list
-    // for (var user in await data.readUsers()) {
-    //   print('Username: ${user['username']}, Password: ${user['password']}');
-    // }
   }
 
   void logMessage(String message) {
