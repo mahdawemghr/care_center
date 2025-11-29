@@ -5,7 +5,18 @@ import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyAllWn5eP1rSNpFDCGjVHTgv84XnFTEPxY",
+      authDomain: "carecenter-ac445.firebaseapp.com",
+      projectId: "carecenter-ac445",
+      storageBucket: "carecenter-ac445.firebasestorage.app",
+      messagingSenderId: "975262808812",
+      appId: "1:975262808812:web:141f540edee4ad00db43c9",
+      measurementId: "G-9P46VEQ5DD",
+    ),
+  );
   runApp(const MyApp());
 }
 

@@ -18,8 +18,12 @@ class UsernameData {
 
   // Adds a new user
   Future<void> addUser(String username, String password) async {
-    final newUser = {'username': username, 'password': password};
-    await db.collection('userData').add(newUser);
+    print("Trying to add user: $username");
+    await db.collection('userData').add({
+      'username': username,
+      'password': password,
+    });
+    print("User added to Firestore");
   }
 
   // Validates username and password
