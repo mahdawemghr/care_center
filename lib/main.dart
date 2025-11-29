@@ -1,7 +1,11 @@
 import 'package:care_center/components/log_in_page.dart';
+import 'package:care_center/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -28,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final bool isLoggedIn = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
 
-      body: LogInCard(),
+      body: isLoggedIn ? const HomePage() : const LogInCard(),
     );
   }
 }
