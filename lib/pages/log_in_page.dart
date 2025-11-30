@@ -1,4 +1,4 @@
-import 'package:care_center/components/register_page.dart';
+import 'package:care_center/pages/register_page.dart';
 import 'package:care_center/pages/admin_page.dart';
 import 'package:care_center/pages/home_page.dart';
 import 'package:flutter/material.dart';

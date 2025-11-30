@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:care_center/components/care_centare_inventory.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    CareCenterInventory data = CareCenterInventory();
     List<String> items = [
       'Wheelchairs',
       'Crutches',
@@ -37,9 +39,20 @@ class HomePage extends StatelessWidget {
                   onPressed: () {},
                   icon: Icon(Icons.arrow_right),
                 ),
-                subtitle: const Text(
-                  'available 2',
-                  style: TextStyle(color: Colors.green),
+                subtitle: FutureBuilder<int>(
+                  future: data.walkerFinal(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Text('Loading...');
+                    } else if (snapshot.hasError) {
+                      return const Text('Error');
+                    } else {
+                      return Text(
+                        snapshot.data.toString(),
+                        style: const TextStyle(color: Colors.green),
+                      );
+                    }
+                  },
                 ),
               ),
             ),

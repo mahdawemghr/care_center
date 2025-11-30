@@ -1,4 +1,4 @@
-import 'package:care_center/components/log_in_page.dart';
+import 'package:care_center/pages/log_in_page.dart';
 import 'package:care_center/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
