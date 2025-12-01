@@ -1,3 +1,4 @@
+import 'package:care_center/pages/admin_notification.dart';
 import 'package:flutter/material.dart';
 import '../components/care_centare_inventory.dart';
 
@@ -6,67 +7,142 @@ class AdminPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final inventory = CareCenterInventory();
-    List<String> items = [
-      'Wheelchairs',
-      'Crutches',
-      'Walkers',
-      'Oxygen Machines',
-      'Hospital Beds',
-    ];
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Care Center "admin"', style: TextStyle(color: Colors.white)),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 4.0,
+        shadowColor: Colors.black12,
+        backgroundColor: colorScheme.primary,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Admin Dashboard',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AdminNotification(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.notifications_active_outlined,
+                color: Colors.white,
+                size: 26,
+              ),
+            ),
+          ],
+        ),
       ),
       body: ListView.builder(
-        itemCount: items.length,
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        itemCount: inventory.itemCount(),
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(vertical: 6.0),
             child: Card(
+              elevation: 3.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
               child: ListTile(
-                title: Text(items[index]),
-                leading: Icon(
-                  Icons.medical_services,
-                  color: Theme.of(context).colorScheme.primary,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 16.0,
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    inventory.walkerFinal().then((value) {
-                      print(value);
-                    });
-                  },
-                  icon: Icon(
-                    Icons.arrow_drop_down_circle,
-                    color: Theme.of(context).colorScheme.primary,
+
+                title: Text(
+                  inventory.itemName(index),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: colorScheme.onSurface,
                   ),
                 ),
-                subtitle: FutureBuilder<int>(
-                  future: inventory.walkerFinal(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Text(
-                        'Loading...',
-                        style: TextStyle(color: Colors.green),
-                      );
-                    }
 
-                    if (snapshot.hasError) {
-                      return const Text(
-                        'Error',
-                        style: TextStyle(color: Colors.red),
-                      );
-                    }
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: FutureBuilder<int>(
+                    future: inventory.itemAvailable(index),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text('Loading count...');
+                      }
 
-                    return Text(
-                      snapshot.data.toString(),
-                      style: const TextStyle(color: Colors.green),
-                    );
-                  },
+                      if (snapshot.hasError) {
+                        return const Text(
+                          'Data Error',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        );
+                      }
+
+                      final value = snapshot.data ?? 0;
+                      final bool isAvailable = value > 0;
+
+                      return Text(
+                        'Current Stock: $value',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: isAvailable
+                              ? Colors.green[700]
+                              : colorScheme.error,
+                          fontSize: 16,
+                        ),
+                      );
+                    },
+                  ),
                 ),
 
+                leading: IconButton(
+                  onPressed: () {
+                    inventory.removeItem(index);
+                  },
+                  icon: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: const Icon(
+                      Icons.remove_circle,
+                      color: Colors.red,
+                      size: 28,
+                    ),
+                  ),
+                  tooltip: 'Remove Item',
+                ),
+
+                trailing: IconButton(
+                  onPressed: () {
+                    inventory.addItem(index);
+                  },
+                  icon: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: const Icon(
+                      Icons.add_circle,
+                      color: Colors.green,
+                      size: 28,
+                    ),
+                  ),
+                  tooltip: 'Add Item',
+                ),
               ),
             ),
           );
