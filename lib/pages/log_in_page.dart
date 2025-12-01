@@ -1,3 +1,4 @@
+import 'package:care_center/pages/guest_page.dart';
 import 'package:care_center/pages/register_page.dart';
 import 'package:care_center/pages/admin_page.dart';
 import 'package:care_center/pages/home_page.dart';
@@ -155,7 +156,7 @@ class _LogInCardState extends State<LogInCard> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const HomePage()),
+                  MaterialPageRoute(builder: (context) => const GuestPage()),
                 );
               },
               child: Text(

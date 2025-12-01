@@ -1,15 +1,15 @@
-import 'package:care_center/pages/user_notification.dart';
+import 'package:care_center/pages/log_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:care_center/components/care_centare_inventory.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class GuestPage extends StatefulWidget {
+  const GuestPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<GuestPage> createState() => _GuestPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _GuestPageState extends State<GuestPage> {
   int? _expandedIndex;
 
   void _showItemDetailsDialog(
@@ -65,10 +65,56 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.send),
               label: const Text('Request'),
               onPressed: () {
+                showLoginRequiredDialog(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colorScheme.primary,
+                foregroundColor: colorScheme.onPrimary,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showLoginRequiredDialog(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Login Required',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Text(
+            'You must be logged in to request an item. Please log in to proceed with your request.',
+            style: TextStyle(color: colorScheme.onSurfaceVariant),
+          ),
+          actions: <Widget>[
+            // 1. Cancel Button (Secondary action)
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            // 2. Log In Button (Primary action)
+            ElevatedButton.icon(
+              icon: const Icon(Icons.login),
+              label: const Text('Log In'),
+              onPressed: () {
                 Navigator.of(context).pop();
-                print('Requesting $itemName from dialog.');
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('$itemName requested successfully!')),
+                  const SnackBar(
+                    content: Text('Redirecting to the Login page...'),
+                  ),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LogInCard()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -89,32 +135,12 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        iconTheme: IconThemeData(color: Color(Colors.white.value)),
         elevation: 4.0,
         shadowColor: Colors.black12,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Care Center Inventory',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const UserNotification(),
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.notifications_active_outlined,
-                color: Colors.white,
-                size: 26,
-              ),
-            ),
-          ],
+        title: const Text(
+          'Care Center Inventory',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
         backgroundColor: colorScheme.primary,
       ),
@@ -255,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                               Expanded(
                                 child: ElevatedButton.icon(
                                   onPressed: () {
-                                    print('Requesting ${data.itemName(index)}');
+                                    showLoginRequiredDialog(context);
                                   },
                                   icon: const Icon(Icons.send),
                                   label: const Text('Request Item'),
